@@ -6,4 +6,4 @@ streamlit.header("Breakfast Menu")
 streamlit.text("Omega3 contains meal")
 
 fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-streamlit.text(fruityvice_response.json)
+streamlit.text(fruityvice_response.json())
