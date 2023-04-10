@@ -1,24 +1,41 @@
-
-# STEP 1 : IMPORT PYTHON PACKAGES
+from snowflake.snowpark.session import Session
+from snowflake.snowpark.functions import avg, sum, col,lit
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
+import pandas as pd
+from snowflake.snowpark.context
 
-# STEP 2 : USE CURRENT SNOWFLAKE SESSION, NO NEED TO MANAGE CREDS!
- # Create Session object
+st.set_page_config(
+     page_title="Environment Data Atlas",
+     page_icon="🧊",
+     layout="wide",
+     initial_sidebar_state="expanded",
+     menu_items={
+         'Get Help': 'https://developers.snowflake.com',
+         'About': "This is an *extremely* cool app powered by Snowpark for Python, Streamlit, and Snowflake Data Marketplace"
+     }
+)
+
+# Create Session object
 def create_session_object():
     connection_parameters = {
-      "account"   : "",
-      "user"      : "",
-      "password"  : "",
-      "role"      : "",
-      "warehouse" : "",
-      "database"  : "KNOEMA_ENVIRONMENT_DATA_ATLAS",
-      "schema"    : "ENVIRONMENT"
+      "account"   : "ZX16444",
+      "user"      : "malakamboj",
+      "password"  : "Rupashi@20",
+      "role"      : "ACCOUNTADMIN",
+      "warehouse" : "COMPUTE_WH",
+      "database"  : "TESTBYMALA",
+      "schema"    : "Public"
     }
     session = Session.builder.configs(connection_parameters).create()
     return session
-# STEP 3 :  SET UP YOUR INPUT FORM
-with st.form("update_report"):
+
+# Add header and a subheader
+st.header("IDR : First Demo")
+st.subheader("Central Data FOR IDR")
+  
+# Create Snowpark DataFrames that loads data from Knoema: Environmental Data Atlas
+def load_data(session):
+  with st.form("update_report"):
     comment_txt = st.text_area('Report comment:')
     comment_dt = st.date_input('Date of report:')
     sub_comment = st.form_submit_button('Submit')
@@ -33,3 +50,7 @@ if sub_comment:
 q_comments = f"""SELECT * FROM DB.SCHEMA.TABLE ORDER BY 1 desc LIMIT 10"""
 df_comments = session.sql(q_comments).to_pandas()
 st.dataframe(df_comments, use_container_width=True)
+
+if __name__ == "__main__":
+    session = create_session_object()
+    load_data(session)
