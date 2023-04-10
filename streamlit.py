@@ -4,17 +4,19 @@ import streamlit as st
 from snowflake.snowpark.context import get_active_session
 
 # STEP 2 : USE CURRENT SNOWFLAKE SESSION, NO NEED TO MANAGE CREDS!
-  connection_parameters = {
-      "account"   : "ZX16444",
-      "user"      : "malakamboj",
-      "password"  : "Rupashi@20",
-      "role"      : "ACCOUNTADMIN",
-      "warehouse" : "COMPUTE_WH",
-      "database"  : "TESTBYMALA",
-      "schema"    : "Public"
+ # Create Session object
+def create_session_object():
+    connection_parameters = {
+      "account"   : "",
+      "user"      : "",
+      "password"  : "",
+      "role"      : "",
+      "warehouse" : "",
+      "database"  : "KNOEMA_ENVIRONMENT_DATA_ATLAS",
+      "schema"    : "ENVIRONMENT"
     }
     session = Session.builder.configs(connection_parameters).create()
-
+    return session
 # STEP 3 :  SET UP YOUR INPUT FORM
 with st.form("update_report"):
     comment_txt = st.text_area('Report comment:')
